@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.add.AddTodoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/ic_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_home_title"
+            style="@style/Theme.Tv_title"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="My checklist"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_home_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toEndOf="@+id/tv_home_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_home_title">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_person" />
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/Theme.Tv_title"
+            android:layout_centerInParent="true"
+            android:text="Add todo"
+            android:textSize="24sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/spinner_bg"
+            >
+
+            <Spinner
+                android:id="@+id/todo_status"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:entries="@array/status"
+                android:padding="4dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical"
+        android:padding="4dp">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="wrap_content"
+            android:hint="title"
+            >
+            <EditText
+                android:id="@+id/add_todo_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_color"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:hint="descripton"
+            >
+
+            <EditText
+                android:id="@+id/add_todo_desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/comfortaa_light"
+                android:gravity="start"
+                android:textColor="@color/app_color" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        >
+
+
+            <TextView
+                android:id="@+id/add_todo_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/comfortaa_light"
+                android:gravity="center"
+                android:textColor="@color/app_color"
+                android:background="@drawable/tv_time_bg"
+                android:layout_marginRight="4dp"
+                android:text="12:00"/>
+
+
+            <TextView
+                android:id="@+id/add_todo_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:fontFamily="@font/comfortaa_light"
+                android:text="12:00"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/tv_time_bg"
+                android:textColor="@color/app_color" />
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add todo"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

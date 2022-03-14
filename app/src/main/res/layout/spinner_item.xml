@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+    <TextView
+        android:id="@+id/sp_status"
+        style="@style/Theme.Tv_title"
+        android:text="Medium"
+        android:padding="4dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:fontFamily="@font/comfortaa_light"
+       />
+</LinearLayout>

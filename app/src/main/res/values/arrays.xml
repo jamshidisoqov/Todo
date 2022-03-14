@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="status">
+        <item>All</item>
+        <item>Hard</item>
+        <item>Medium</item>
+        <item>Easy</item>
+    </string-array>
+</resources>
