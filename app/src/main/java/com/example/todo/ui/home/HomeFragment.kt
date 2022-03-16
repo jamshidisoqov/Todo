@@ -70,7 +70,6 @@ class HomeFragment : Fragment() {
 
         binding.todoStatusHome.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "status$p2", Toast.LENGTH_SHORT).show()
                 viewModel.sortingSpinner(p2)
             }
 
