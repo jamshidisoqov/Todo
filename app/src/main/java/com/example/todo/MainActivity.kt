@@ -2,12 +2,8 @@ package com.example.todo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.todo.data.CurrentTodo
 import com.example.todo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,15 +19,4 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
     }
-
-    fun onTodoRecyclerClick(){
-        navController.navigate(R.id.action_homeFragment_to_updateFragment)
-
-    }
-
-    fun onNewFragment(){
-        navController.navigate(R.id.action_homeFragment_to_addTodoFragment)
-    }
-
-
 }

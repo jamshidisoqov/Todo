@@ -1,15 +1,19 @@
 package com.example.todo.ui.home
 
+import android.content.ContentValues.TAG
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.todo.MainActivity
 import com.example.todo.R
 import com.example.todo.adapters.CalendarAdapter
@@ -17,8 +21,9 @@ import com.example.todo.adapters.SpinnerAdapter
 import com.example.todo.adapters.TodoAdapter
 
 import com.example.todo.databinding.HomeFragmentBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class HomeFragment : Fragment() {
 
@@ -30,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var spinnerAdapter: SpinnerAdapter
     private lateinit var list: List<String>
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,54 +43,84 @@ class HomeFragment : Fragment() {
 
         binding = HomeFragmentBinding.inflate(layoutInflater)
         //List load
-        spLoad()
+        spinnerLoad()
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         //generate adapters
-        adapter = TodoAdapter(activity as MainActivity)
-        cAdapter = CalendarAdapter()
+        adapter = TodoAdapter()
+        cAdapter = CalendarAdapter(this)
         spinnerAdapter = SpinnerAdapter(requireContext(), list)
 
         //set adapters
         binding.todoWorkRcv.adapter = adapter
         binding.calendarRcv.adapter = cAdapter
-        binding.todoStatusHome.adapter = spinnerAdapter
 
-        //viewmodelgenerate
-
-        //adapter setdata
-        viewModel.readAllData!!.observe(viewLifecycleOwner) {
-
-                adapter.setData(it)
+        viewModel.todoOfDay.observe(viewLifecycleOwner) {
+            adapter.setData(it)
         }
+
+        viewModel.days.observe(viewLifecycleOwner){
+            cAdapter.setData(it)
+        }
+
+        notifyTodoAdapter(viewModel.nowTime.value!!)
+
 
         //add todo
         binding.addFab.setOnClickListener {
-            (activity as MainActivity).onNewFragment()
-
+            Toast.makeText(context, "${viewModel.nowTime.value}", Toast.LENGTH_SHORT).show()
+            val action=HomeFragmentDirections.actionHomeFragmentToAddTodoFragment(viewModel.nowTime.value!!)
+            findNavController().navigate(action)
         }
         //settings
         binding.homeImgProf.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
-        binding.todoStatusHome.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "status$p2", Toast.LENGTH_SHORT).show()
-                viewModel.sortingSpinner(p2)
+
+        val itemTouchHelper = object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+
+                val dragFlag = ((ItemTouchHelper.DOWN or ItemTouchHelper.LEFT) or (ItemTouchHelper.UP or  ItemTouchHelper.END))
+                val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+                return makeMovementFlags(dragFlag, swipeFlags)
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
 
+                adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val todoModel = viewModel.todoOfDay.value!![viewHolder.adapterPosition].copy(todo = true)
+                viewModel.updateTodoStatus(todoModel)
+                adapter.onItemDismiss(viewHolder.adapterPosition)
             }
 
         }
 
+        val itemTouch= ItemTouchHelper(itemTouchHelper)
+        itemTouch.attachToRecyclerView(binding.todoWorkRcv)
+
+
         return binding.root
     }
 
-    private fun spLoad() {
-        list = arrayListOf("All", "Easy", "Med...", "Hard")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun  notifyTodoAdapter(s:String){
+        viewModel.takeNowTime(s)
+    }
+
+    fun spinnerLoad(){
+        list= listOf("All","Easy","Medi","Hard")
     }
 
 

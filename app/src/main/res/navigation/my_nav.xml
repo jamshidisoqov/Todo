@@ -33,8 +33,9 @@
             android:id="@+id/action_addTodoFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <argument
-            android:name="currentUser"
-            app:argType="com.example.todo.models.TodoModel" />
+            android:name="nowTime"
+            app:argType="string"
+            android:defaultValue="Wednesday,16 March,2022" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

@@ -1,16 +1,15 @@
 package com.example.todo.repository.todo
-
-import android.content.ContentValues.TAG
-import android.nfc.Tag
-import android.util.Log
-import androidx.lifecycle.LiveData
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.todo.models.TodoModel
 import com.example.todo.data.UserDao
+import com.example.todo.ui.home.HomeUseCase
 
 class TodoRepository(private val userDao: UserDao) {
 
-    val readAllData:LiveData<List<TodoModel>> = userDao.readTodo()
-
+    val takeNowTime:String
+    @RequiresApi(Build.VERSION_CODES.O)
+    get() = HomeUseCase.takeNowTime()
 
     suspend fun addTodo(todoModel: TodoModel){
         userDao.insertTodoData(todoModel)
@@ -20,23 +19,16 @@ class TodoRepository(private val userDao: UserDao) {
         userDao.update(todoModel)
     }
 
-    suspend fun sortingToDo(item:Int):List<TodoModel> {
-
-        if (item == 0) return readAllData!!.value!!
-        var list:ArrayList<TodoModel>?=null
-        for (i in readAllData.value!!){
-            Log.d(TAG, "sortingToDoData: ${i}")
-            if (i.status==item){
-                list!!.add(i)
-            }
-        }
-
-        val list1: List<ArrayList<TodoModel>?> = listOf(list)
-
-
-
-        return list1 as List<TodoModel>
+    suspend fun readTodoOfDay(time:String):List<TodoModel>{
+        return userDao.readData(time)
     }
+
+     suspend fun readDay():List<String>{
+        return userDao.readDay()
+    }
+
+
+
 
 
 

@@ -113,25 +113,6 @@
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/rcv_day_item" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/spinner_bg"
-                android:layout_margin="4dp"
-                >
-
-                <Spinner
-                    android:id="@+id/todo_status_home"
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:text="Medium"
-                    android:textSize="14sp"
-                    tools:listitem="@layout/spinner_item"
-                    android:textColor="@color/white"
-                    android:padding="4dp"/>
-            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todo_work_rcv"
