@@ -9,10 +9,12 @@
         android:id="@+id/tv_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
         android:text="9"
+        android:fontFamily="@font/comfortaa_light"
         android:textColor="@color/white"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv_weekday"
@@ -20,8 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_day"
         android:layout_centerInParent="true"
+        android:fontFamily="@font/comfortaa_light"
         android:layout_marginBottom="4dp"
         android:text="Wed"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 </RelativeLayout>

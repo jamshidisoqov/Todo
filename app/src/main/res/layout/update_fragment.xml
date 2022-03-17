@@ -55,10 +55,11 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_todo_time"
             style="@style/Theme.Tv_title"
             android:layout_centerInParent="true"
-            android:text="Add todo"
-            android:textSize="24sp" />
+            android:text="Wed,9 March"
+            android:textSize="18sp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

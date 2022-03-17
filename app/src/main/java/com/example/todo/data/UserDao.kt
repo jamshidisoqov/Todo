@@ -1,27 +1,21 @@
 package com.example.todo.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.todo.models.TodoModel
-import com.example.todo.models.User
-import org.jetbrains.annotations.NotNull
 
 @Dao
 interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertData(user: User)
-
-    @Query("SELECT*FROM user_data ORDER BY id ASC")
-    fun readAllData():LiveData<List<User>>
+    @Query("SELECT*FROM todo_data WHERE time=:time")
+    suspend fun readData(time:String):List<TodoModel>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTodoData(todo: TodoModel)
 
-    @NotNull
-    @Query("SELECT*FROM todo_data")
-    fun readTodo():LiveData<List<TodoModel>>
-
     @Update(entity = TodoModel::class)
-    fun update(todo: TodoModel)
+    suspend fun update(todo: TodoModel)
+
+    @Query("SELECT DISTINCT time FROM todo_data")
+    suspend fun readDay():List<String>
+
 }

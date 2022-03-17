@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.todo.data.CurrentTodo
 import com.example.todo.data.UserDatabase
 import com.example.todo.models.TodoModel
 import com.example.todo.repository.todo.TodoRepository

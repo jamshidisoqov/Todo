@@ -3,28 +3,18 @@ package com.example.todo.ui.add
 import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.TextUtils
-import android.text.TextWatcher
-import android.text.format.DateFormat.is24HourFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.example.todo.MainActivity
+import androidx.navigation.fragment.navArgs
 import com.example.todo.R
 import com.example.todo.adapters.SpinnerAdapter
-import com.example.todo.models.TodoModel
 import com.example.todo.databinding.AddTodoFragmentBinding
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import com.example.todo.ui.home.HomeUseCase
 
 class AddTodoFragment : Fragment() {
 
@@ -33,83 +23,56 @@ class AddTodoFragment : Fragment() {
     private lateinit var binding: AddTodoFragmentBinding
     private lateinit var spinnerAdapter: SpinnerAdapter
     private lateinit var list: List<String>
+    private val safeArgs by navArgs<AddTodoFragmentArgs>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = AddTodoFragmentBinding.inflate(layoutInflater)
 
         spLoad()
 
-        spinnerAdapter=SpinnerAdapter(requireContext(),list)
+        spinnerAdapter = SpinnerAdapter(requireContext(),list)
 
         viewModel = ViewModelProvider(this).get(AddTodoViewModel::class.java)
 
-        binding = AddTodoFragmentBinding.inflate(layoutInflater)
-
-        binding.todoStatus.adapter=spinnerAdapter
+        binding.todoStatus.adapter = spinnerAdapter
 
         binding.btnAdd.setOnClickListener {
             this.addTodoData()
-            findNavController().navigate(R.id.action_addTodoFragment_to_homeFragment)
+            findNavController().popBackStack()
         }
+        binding.tvTodoTimeAdd.text=HomeUseCase.LocalDateToParseTime(safeArgs.nowTime)
 
         binding.addTodoStartTime.setOnClickListener {
-            val hour = openTimerPicker()
-            binding.addTodoStartTime.text=hour
+            viewModel.setStartTime(childFragmentManager,0)
+        }
+
+
+        binding.addTodoEndTime.setOnClickListener {
+            viewModel.setEndTime(childFragmentManager,1)
+        }
+
+        viewModel._todoTime.observe(viewLifecycleOwner){
+            binding.addTodoStartTime.text=it.startTime
+            binding.addTodoEndTime.text=it.endTime
         }
 
         return binding.root
     }
 
-     fun addTodoData() {
-        var title=binding.addTodoTitle.text.toString()
-        var desc=binding.addTodoDesc.text.toString()
-        var status=binding.todoStatus.selectedItemPosition
-         Toast.makeText(context, "status=$status", Toast.LENGTH_SHORT).show()
-        var stTime=binding.addTodoStartTime.text.toString()
-        var endTime=binding.addTodoEndTime.text.toString()
-        if(checkTodo(title,desc,stTime,endTime)){
-
-            val todo= TodoModel(0,title,desc,status+1,stTime,endTime,
-                "aas",false,false)
-            viewModel.viewModelScope.launch(Dispatchers.IO) {
-                viewModel.addTodo(todo)
-            }
-        }
+    private fun addTodoData() {
+        val title = binding.addTodoTitle.text.toString()
+        val desc = binding.addTodoDesc.text.toString()
+        val status = binding.todoStatus.selectedItemPosition
+        val stTime = binding.addTodoStartTime.text.toString()
+        val endTime = binding.addTodoEndTime.text.toString()
+        viewModel.addTodo(title, desc, stTime, endTime, status, safeArgs.nowTime)
     }
 
-    private fun checkTodo(title: String, desc: String, stTime: String, endTime: String): Boolean {
-        return !TextUtils.isEmpty(title)&&!TextUtils.isEmpty(desc)&&!TextUtils.isEmpty(stTime)&&!TextUtils.isEmpty(endTime)
+    private fun spLoad() {
+        list = arrayListOf("Easy", "Med...", "Hard")
     }
-
-
-
-    private fun spLoad(){
-        list= arrayListOf("Easy","Med...","Hard")
-    }
-
-    fun openTimerPicker():String{
-        val timerPICKER=is24HourFormat(requireContext())
-        val clockFormat=if (timerPICKER) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-        val picker=MaterialTimePicker.Builder()
-            .setTimeFormat(clockFormat)
-            .setHour(12)
-            .setMinute(0)
-            .setTitleText("Set Alarm")
-            .build()
-        picker.show(childFragmentManager,"Tag")
-
-        picker.addOnPositiveButtonClickListener {
-            binding.addTodoStartTime.text= "${picker.hour}:${picker.minute}"
-        }
-
-        return "12:00"
-
-
-    }
-
-
-
 }
