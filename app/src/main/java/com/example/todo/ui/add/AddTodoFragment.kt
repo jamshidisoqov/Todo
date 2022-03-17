@@ -14,12 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.todo.adapters.SpinnerAdapter
+import com.example.todo.ui.home.adapters.SpinnerAdapter
 import com.example.todo.databinding.AddTodoFragmentBinding
-import com.example.todo.ui.home.HomeUseCase
-import java.text.DateFormatSymbols
 import java.time.LocalDate
-import java.time.Month
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*

@@ -1,4 +1,4 @@
-package com.example.todo.adapters
+package com.example.todo.ui.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.todo.R
 import com.example.todo.databinding.SpinnerItemBinding
-import com.example.todo.ui.add.AddTodoFragment
 
 class SpinnerAdapter(ctx:Context, var list: List<String>) : BaseAdapter() {
     private lateinit var binding: SpinnerItemBinding

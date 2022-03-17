@@ -18,4 +18,7 @@ interface UserDao {
     @Query("SELECT DISTINCT time FROM todo_data")
     suspend fun readDay():List<String>
 
+    @Query("SELECT*FROM todo_data")
+    suspend fun readAllTodo():List<TodoModel>
+
 }

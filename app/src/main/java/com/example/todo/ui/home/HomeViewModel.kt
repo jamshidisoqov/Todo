@@ -7,6 +7,7 @@ import androidx.lifecycle.*
 import com.example.todo.models.TodoModel
 import com.example.todo.data.UserDatabase
 import com.example.todo.repository.todo.TodoRepository
+import com.example.todo.ui.home.usecase.HomeUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun readTodoOfDay(time:String){
         viewModelScope.launch{
          _todOfDay.value = repo!!.readTodoOfDay(time)
+            if (todoOfDay.value==null){
+                takeNowTime(days.value!![0])
+            }
         }
     }
 

@@ -157,7 +157,8 @@
             android:layout_height="wrap_content"
             android:text="Update todo"
             android:textColor="@color/white"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:layout_marginTop="16dp"/>
 
     </LinearLayout>
 

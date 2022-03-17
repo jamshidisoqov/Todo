@@ -18,21 +18,21 @@ import kotlinx.coroutines.launch
 
 class UpdateViewModel(application: Application) : AndroidViewModel(application) {
 
-    var todoModel: MutableLiveData<TodoModel>?=null
+    var todoModel: MutableLiveData<TodoModel>? = null
 
     private var todoTime: MutableLiveData<TodoTime> =
-        MutableLiveData<TodoTime>(TodoTime("12:00", "12:00"))
+        MutableLiveData<TodoTime>()
     val _todoTime: LiveData<TodoTime> get() = todoTime
 
 
-    fun updateUser(todoModel: TodoModel){
-        viewModelScope.launch(Dispatchers.IO){
-            val dao=UserDatabase.getDatabase(getApplication()).userDao()
-            val repository=TodoRepository(dao)
+    fun updateUser(todoModel: TodoModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dao = UserDatabase.getDatabase(getApplication()).userDao()
+            val repository = TodoRepository(dao)
             repository.updateTodo(todoModel)
         }
     }
-    
+
     fun openTimerPicker(manager: FragmentManager, pos: Int): String {
         val timerPICKER = DateFormat.is24HourFormat(getApplication())
         val clockFormat = if (timerPICKER) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H

@@ -1,4 +1,4 @@
-package com.example.todo.ui.home
+package com.example.todo.ui.home.usecase
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -25,7 +25,7 @@ object HomeUseCase {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun LocalDateToParseTime(time: String):String{
-        val format= HomeUseCase.parseToLocalDate(time)
+        val format= parseToLocalDate(time)
         return "${format.dayOfWeek.name.substring(0,3)},${format.dayOfMonth} ${format.month.name}"
     }
 }

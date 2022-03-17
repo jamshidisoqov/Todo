@@ -1,17 +1,18 @@
-package com.example.todo.adapters
+package com.example.todo.ui.home.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todo.MainActivity
 import com.example.todo.R
 import com.example.todo.models.TodoModel
 import com.example.todo.databinding.RcvTodoItemBinding
-import com.example.todo.ui.home.HomeFragment
 import com.example.todo.ui.home.HomeFragmentDirections
+import com.example.todo.ui.search.adapters.SearchAdapter
+import com.example.todo.ui.update.usecase.UpdateUC
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,9 +23,10 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     inner class TodoViewHolder(var binding: RcvTodoItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun populateModel(todoModel: TodoModel, position: Int) {
-
-            binding.tvItemTodoTitle.text=todoModel.title
+            val title=if (todoModel.title.length>20) "${todoModel.title.substring(0,21)}..." else todoModel.title
+            binding.tvItemTodoTitle.text=title
             binding.tvItemTodoDesc.text="${todoModel.start}-${todoModel.end}"
+            binding.tvStatus.text= Statatus.values()[todoModel.status].name
 
             binding.statusImg.visibility= if (todoModel.todo) View.VISIBLE else View.INVISIBLE
 
@@ -73,10 +75,20 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
         notifyItemMoved(pos1,pos2)
     }
 
-     fun onItemDismiss(position: Int) {
+     @RequiresApi(Build.VERSION_CODES.O)
+     fun onItemDismiss(position: Int) :Boolean{
          val arrList=list as ArrayList<TodoModel>
-            arrList[position]=arrList[position].copy(todo = true)
-            list=arrList
-            notifyItemChanged(position)
+         if (UpdateUC.compareTodo(arrList[position].time)) {
+             arrList[position] = arrList[position].copy(todo = true)
+             list = arrList
+             notifyItemChanged(position)
+             return true
+         }
+         notifyItemChanged(position)
+         return false
+    }
+
+    enum class Statatus{
+        Easy,Medi,Hard
     }
 }
