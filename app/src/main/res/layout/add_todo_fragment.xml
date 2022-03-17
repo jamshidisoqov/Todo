@@ -59,8 +59,11 @@
             style="@style/Theme.Tv_title"
             android:layout_centerInParent="true"
             android:text="Wed,9 March"
-            android:textSize="22sp" />
+            android:textSize="18sp"
+            android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@id/txv"/>
         <LinearLayout
+            android:id="@+id/txv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            android:layout_alignParentEnd="true"

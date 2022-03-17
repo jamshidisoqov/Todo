@@ -1,20 +1,28 @@
 package com.example.todo.ui.add
 
+import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.os.Build
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.todo.R
 import com.example.todo.adapters.SpinnerAdapter
 import com.example.todo.databinding.AddTodoFragmentBinding
 import com.example.todo.ui.home.HomeUseCase
+import java.text.DateFormatSymbols
+import java.time.LocalDate
+import java.time.Month
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
 class AddTodoFragment : Fragment() {
 
@@ -44,7 +52,7 @@ class AddTodoFragment : Fragment() {
             this.addTodoData()
             findNavController().popBackStack()
         }
-        binding.tvTodoTimeAdd.text=HomeUseCase.LocalDateToParseTime(safeArgs.nowTime)
+        binding.tvTodoTimeAdd.text=safeArgs.nowTime
 
         binding.addTodoStartTime.setOnClickListener {
             viewModel.setStartTime(childFragmentManager,0)
@@ -59,6 +67,9 @@ class AddTodoFragment : Fragment() {
             binding.addTodoStartTime.text=it.startTime
             binding.addTodoEndTime.text=it.endTime
         }
+        binding.tvTodoTimeAdd.setOnClickListener {
+            openData()
+        }
 
         return binding.root
     }
@@ -69,10 +80,43 @@ class AddTodoFragment : Fragment() {
         val status = binding.todoStatus.selectedItemPosition
         val stTime = binding.addTodoStartTime.text.toString()
         val endTime = binding.addTodoEndTime.text.toString()
-        viewModel.addTodo(title, desc, stTime, endTime, status, safeArgs.nowTime)
+        val time = binding.tvTodoTimeAdd.text.toString()
+        viewModel.addTodo(title, desc, stTime, endTime, status,time)
     }
 
     private fun spLoad() {
         list = arrayListOf("Easy", "Med...", "Hard")
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun openData(){
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+
+        val dpd = DatePickerDialog(requireContext(), { view, year, monthOfYear, dayOfMonth ->
+            Toast.makeText(context, "$dayOfMonth,", Toast.LENGTH_SHORT).show()
+            c.set(Calendar.YEAR,year)
+            c.set(Calendar.MONTH,month)
+            c.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+
+            //val week=getWeek(dayOfMonth-1)
+
+            Log.d(TAG, "openData: ${monthOfYear}")
+            val mon=if ("${monthOfYear+1}".length<2) "0${monthOfYear+1}" else "${monthOfYear+1}"
+            val day=if ("${dayOfMonth}".length<2) "0${dayOfMonth}" else "${dayOfMonth}"
+
+            val date = LocalDate.parse("$year-$mon-$day")
+
+
+           binding.tvTodoTimeAdd.text="${date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))}"
+        }, year, month, day)
+
+        dpd.show()
+    }
+
+
 }

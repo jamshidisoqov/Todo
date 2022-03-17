@@ -42,7 +42,6 @@ class UpdateFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(UpdateViewModel::class.java)
 
-
         binding.apply {
             val current = safeVarargs.currentItem
             this.updateTodoTitle.setText(current.title)
@@ -70,6 +69,21 @@ class UpdateFragment : Fragment() {
             )
             findNavController().popBackStack()
         }
+
+        binding.updateTodoStartTime.setOnClickListener {
+            viewModel.setStartTime(childFragmentManager,0)
+        }
+
+        binding.updateTodoEndTime.setOnClickListener {
+            viewModel.setEndTime(childFragmentManager,1)
+        }
+
+
+        viewModel._todoTime.observe(viewLifecycleOwner){
+            binding.updateTodoStartTime.text=it.startTime
+            binding.updateTodoEndTime.text=it.endTime
+        }
+
         return binding.root
     }
 
