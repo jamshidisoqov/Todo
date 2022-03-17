@@ -68,7 +68,6 @@ class HomeFragment : Fragment() {
 
         //add todo
         binding.addFab.setOnClickListener {
-            Toast.makeText(context, "${viewModel.nowTime.value}", Toast.LENGTH_SHORT).show()
             val action=HomeFragmentDirections.actionHomeFragmentToAddTodoFragment(viewModel.nowTime.value!!)
             findNavController().navigate(action)
         }
@@ -94,7 +93,6 @@ class HomeFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-
                 adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
                 return true
             }
@@ -122,6 +120,17 @@ class HomeFragment : Fragment() {
     fun spinnerLoad(){
         list= listOf("All","Easy","Medi","Hard")
     }
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onStart() {
+        viewModel.readDay()
+        viewModel.takeNowTime(HomeUseCase.takeNowTime())
+        super.onStart()
+    }
+
+
 
 
 
