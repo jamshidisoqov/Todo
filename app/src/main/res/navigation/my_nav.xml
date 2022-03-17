@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_homeFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTodoFragment"
@@ -57,6 +60,21 @@
         <argument
             android:name="currentItem"
             app:argType="com.example.todo.models.TodoModel" />
+        <action
+            android:id="@+id/action_updateFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.todo.ui.search.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
 
 </navigation>

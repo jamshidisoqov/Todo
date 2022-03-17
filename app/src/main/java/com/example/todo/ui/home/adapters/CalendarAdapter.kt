@@ -1,4 +1,4 @@
-package com.example.todo.adapters
+package com.example.todo.ui.home.adapters
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todo.R
 import com.example.todo.databinding.RcvDayItemBinding
 import com.example.todo.ui.home.HomeFragment
-import com.example.todo.ui.home.HomeUseCase
+import com.example.todo.ui.home.usecase.HomeUseCase
 
 class CalendarAdapter(var fragment: HomeFragment) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
     private var list: List<String> = emptyList()
@@ -17,7 +17,7 @@ class CalendarAdapter(var fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     class CalendarViewHolder(var binding: RcvDayItemBinding) : RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun populateModel(s: String) {
-            val local=HomeUseCase.parseToLocalDate(s)
+            val local= HomeUseCase.parseToLocalDate(s)
             binding.tvDay.text=local.dayOfMonth.toString()
             binding.tvWeekday.text=local.dayOfWeek.name.substring(0,3)
         }

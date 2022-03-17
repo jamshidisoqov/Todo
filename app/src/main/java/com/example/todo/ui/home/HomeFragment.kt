@@ -1,9 +1,7 @@
 package com.example.todo.ui.home
 
-import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,16 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todo.MainActivity
 import com.example.todo.R
-import com.example.todo.adapters.CalendarAdapter
-import com.example.todo.adapters.SpinnerAdapter
-import com.example.todo.adapters.TodoAdapter
+import com.example.todo.ui.home.adapters.CalendarAdapter
+import com.example.todo.ui.home.adapters.SpinnerAdapter
+import com.example.todo.ui.home.adapters.TodoAdapter
 
 import com.example.todo.databinding.HomeFragmentBinding
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import com.example.todo.ui.home.usecase.HomeUseCase
 
 class HomeFragment : Fragment() {
 
@@ -59,7 +54,7 @@ class HomeFragment : Fragment() {
             adapter.setData(it)
         }
 
-        viewModel.days.observe(viewLifecycleOwner){
+        viewModel.days.observe(viewLifecycleOwner) {
             cAdapter.setData(it)
         }
 
@@ -68,7 +63,8 @@ class HomeFragment : Fragment() {
 
         //add todo
         binding.addFab.setOnClickListener {
-            val action=HomeFragmentDirections.actionHomeFragmentToAddTodoFragment(viewModel.nowTime.value!!)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToAddTodoFragment(viewModel.nowTime.value!!)
             findNavController().navigate(action)
         }
         //settings
@@ -83,7 +79,8 @@ class HomeFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder
             ): Int {
 
-                val dragFlag = ((ItemTouchHelper.DOWN or ItemTouchHelper.LEFT) or (ItemTouchHelper.UP or  ItemTouchHelper.END))
+                val dragFlag =
+                    ((ItemTouchHelper.DOWN or ItemTouchHelper.LEFT) or (ItemTouchHelper.UP or ItemTouchHelper.END))
                 val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
                 return makeMovementFlags(dragFlag, swipeFlags)
             }
@@ -98,14 +95,22 @@ class HomeFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val todoModel = viewModel.todoOfDay.value!![viewHolder.adapterPosition].copy(todo = true)
+                val todoModel =
+                    viewModel.todoOfDay.value!![viewHolder.adapterPosition].copy(todo = true)
                 viewModel.updateTodoStatus(todoModel)
-                adapter.onItemDismiss(viewHolder.adapterPosition)
+                if(adapter.onItemDismiss(viewHolder.adapterPosition))
+                    Toast.makeText(context, "Succes todo working", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(context, "Can't working of todo", Toast.LENGTH_SHORT).show()
             }
 
         }
 
-        val itemTouch= ItemTouchHelper(itemTouchHelper)
+        binding.homeSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        val itemTouch = ItemTouchHelper(itemTouchHelper)
         itemTouch.attachToRecyclerView(binding.todoWorkRcv)
 
 
@@ -113,25 +118,22 @@ class HomeFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun  notifyTodoAdapter(s:String){
+    fun notifyTodoAdapter(s: String) {
         viewModel.takeNowTime(s)
     }
 
-    fun spinnerLoad(){
-        list= listOf("All","Easy","Medi","Hard")
+    fun spinnerLoad() {
+        list = listOf("All", "Easy", "Medi", "Hard")
     }
-
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onStart() {
+    override fun onResume() {
         viewModel.readDay()
         viewModel.takeNowTime(HomeUseCase.takeNowTime())
-        super.onStart()
+
+        super.onResume()
     }
-
-
-
 
 
 }
