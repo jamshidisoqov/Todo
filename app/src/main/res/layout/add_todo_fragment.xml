@@ -28,23 +28,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.1" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="8dp"
+        <ImageView
+            android:id="@+id/home_img_prof"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="@+id/tv_home_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toEndOf="@+id/tv_home_title"
-            app:layout_constraintTop_toTopOf="@+id/tv_home_title">
+            app:layout_constraintTop_toTopOf="@+id/tv_home_title"/>
 
-            <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_person" />
-        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -58,10 +52,10 @@
             android:id="@+id/tv_todo_time_add"
             style="@style/Theme.Tv_title"
             android:layout_centerInParent="true"
-            android:text="Wed,9 March"
-            android:textSize="18sp"
             android:layout_marginRight="4dp"
-            android:layout_toLeftOf="@id/txv"/>
+            android:layout_toLeftOf="@id/txv"
+            android:text="Wed,9 March"
+            android:textSize="18sp" />
         <LinearLayout
             android:id="@+id/txv"
             android:layout_width="wrap_content"
@@ -100,6 +94,7 @@
                 android:id="@+id/add_todo_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa_light"
                 android:textColor="@color/app_color"/>
         </com.google.android.material.textfield.TextInputLayout>
 

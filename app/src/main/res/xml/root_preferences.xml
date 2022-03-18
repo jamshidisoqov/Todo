@@ -1,0 +1,54 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="General">
+
+        <EditTextPreference
+            app:key="name"
+            app:title="Name"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_person"/>
+
+        <EditTextPreference
+            app:title="Bio"
+            app:defaultValue="Men Isoqov Jamshid"
+            app:key="bio"
+            app:icon="@drawable/ic_bio"
+            app:useSimpleSummaryProvider="true" />
+
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="App">
+
+        <SwitchPreferenceCompat
+            app:key="theme"
+            app:title="Theme"
+            app:useSimpleSummaryProvider="true"
+            android:summaryOff="Light Mode"
+            android:summaryOn="Dark Mode"
+            app:icon="@drawable/ic_theme"
+             />
+
+        <ListPreference
+            android:layout_width="match_parent"
+            app:defaultValue="reply"
+            app:entries="@array/language"
+            app:entryValues="@array/language"
+            app:key="language"
+            app:title="Language"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/ic_language"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Other">
+        <EditTextPreference app:title="Share"
+            app:selectable="false"
+            app:key="share"
+            app:icon="@drawable/ic_share"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

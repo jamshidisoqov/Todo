@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/drawable/ic_back.xml" value="0.1855" />
+        <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/drawable/ic_person.xml" value="0.172" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/drawable/spinner_bg.xml" value="0.183" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/drawable/tv_time_bg.xml" value="0.1855" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -16,8 +17,10 @@
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/rcv_user_item.xml" value="0.2234375" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/search_fragment.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/settings_fragment.xml" value="0.2234375" />
+        <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/simple_share.xml" value="0.16302083333333334" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/spinner_item.xml" value="0.1296875" />
         <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/layout/update_fragment.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/Jamshid/AndroidStudioProjects/Todo/app/src/main/res/xml/root_preferences.xml" value="0.264" />
       </map>
     </option>
   </component>
