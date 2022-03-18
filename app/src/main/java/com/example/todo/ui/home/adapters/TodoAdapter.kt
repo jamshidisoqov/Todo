@@ -22,6 +22,7 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
     private lateinit var binding: RcvTodoItemBinding
 
     inner class TodoViewHolder(var binding: RcvTodoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun populateModel(todoModel: TodoModel, position: Int) {
             val title=if (todoModel.title.length>20) "${todoModel.title.substring(0,21)}..." else todoModel.title
             binding.tvItemTodoTitle.text=title
@@ -30,6 +31,9 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
             binding.statusImg.visibility= if (todoModel.todo) View.VISIBLE else View.INVISIBLE
 
+            binding.statusImgNot.visibility=
+            if (UpdateUC.compareTodo(todoModel.time)) View.INVISIBLE else if (todoModel.todo)
+                View.INVISIBLE else View.VISIBLE
 
         }
     }
@@ -42,6 +46,7 @@ class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
         return TodoViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
 
         holder.populateModel(list[position],position)

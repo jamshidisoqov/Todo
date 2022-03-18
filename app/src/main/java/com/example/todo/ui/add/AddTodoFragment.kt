@@ -71,6 +71,7 @@ class AddTodoFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addTodoData() {
         val title = binding.addTodoTitle.text.toString()
         val desc = binding.addTodoDesc.text.toString()
@@ -78,7 +79,11 @@ class AddTodoFragment : Fragment() {
         val stTime = binding.addTodoStartTime.text.toString()
         val endTime = binding.addTodoEndTime.text.toString()
         val time = binding.tvTodoTimeAdd.text.toString()
-        viewModel.addTodo(title, desc, stTime, endTime, status,time)
+        if(viewModel.addTodo(title, desc, stTime, endTime, status,time)){
+            Toast.makeText(context, "Succesful added", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(context, "You have swtitched last time", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun spLoad() {

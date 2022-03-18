@@ -1,8 +1,10 @@
 package com.example.todo.ui.add
 
 import android.app.Application
+import android.os.Build
 import android.text.TextUtils
 import android.text.format.DateFormat
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
@@ -13,6 +15,7 @@ import com.example.todo.models.TodoModel
 import com.example.todo.data.UserDatabase
 import com.example.todo.models.TodoTime
 import com.example.todo.repository.todo.TodoRepository
+import com.example.todo.ui.update.usecase.UpdateUC
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +33,7 @@ class AddTodoViewModel(application: Application) : AndroidViewModel(application)
         repo = TodoRepository(dao)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addTodo(
         title: String,
         desc: String,
@@ -39,7 +43,7 @@ class AddTodoViewModel(application: Application) : AndroidViewModel(application)
         nowTime: String
     ): Boolean {
         viewModelScope.launch(Dispatchers.IO) {
-            if (checkTodo(title, desc, stTime, endTime)) {
+            if (checkTodo(title, desc, stTime, endTime,nowTime)) {
                 val todoModel =
                     TodoModel(0, title, desc, status, stTime, endTime, nowTime, false, false)
                 repo!!.addTodo(todoModel)
@@ -61,11 +65,15 @@ class AddTodoViewModel(application: Application) : AndroidViewModel(application)
 
         picker.addOnPositiveButtonClickListener {
             if (pos == 0) {
+                var hour1=if ("${picker.hour}".length<2) "0${picker.hour}" else "${picker.hour}"
+                var minute1=if ("${picker.minute}".length<2) "0${picker.minute}" else "${picker.minute}"
                 todoTime.value =
-                    TodoTime("${picker.hour}:${picker.minute}", todoTime.value!!.endTime)
+                    TodoTime("$hour1:$minute1", todoTime.value!!.endTime)
             } else {
+                var hour1=if ("${picker.hour}".length<2) "0${picker.hour}" else "${picker.hour}"
+                var minute1=if ("${picker.minute}".length<2) "0${picker.minute}" else "${picker.minute}"
                 todoTime.value =
-                    TodoTime(todoTime.value!!.startTime, "${picker.hour}:${picker.minute}")
+                    TodoTime(todoTime.value!!.startTime, "$hour1:$minute1")
             }
         }
 
@@ -73,8 +81,9 @@ class AddTodoViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-    fun checkTodo(title: String, desc: String, stTime: String, endTime: String): Boolean {
-        return !TextUtils.isEmpty(title) && !TextUtils.isEmpty(desc) && !TextUtils.isEmpty(stTime) && !TextUtils.isEmpty(
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkTodo(title: String, desc: String, stTime: String, endTime: String, time: String): Boolean {
+        return UpdateUC.compareTodo(time)&&!TextUtils.isEmpty(title) && !TextUtils.isEmpty(desc) && !TextUtils.isEmpty(stTime) && !TextUtils.isEmpty(
             endTime
         )
     }

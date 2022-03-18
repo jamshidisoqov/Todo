@@ -1,14 +1,17 @@
 package com.example.todo.ui.search.adapters
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todo.R
 import com.example.todo.models.TodoModel
 import com.example.todo.databinding.RcvTodoItemBinding
 import com.example.todo.ui.search.SearchFragmentDirections
+import com.example.todo.ui.update.usecase.UpdateUC
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.TodoViewHolder>() {
     private var list: List<TodoModel> = emptyList()
@@ -17,6 +20,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.TodoViewHolder>() {
 
     inner class TodoViewHolder(var binding: RcvTodoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun populateModel(todoModel: TodoModel) {
             val title = if (todoModel.title.length > 20) "${
                 todoModel.title.substring(
@@ -28,6 +32,10 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.TodoViewHolder>() {
             binding.tvItemTodoDesc.text = "${todoModel.start}-${todoModel.end}"
             binding.tvStatus.text = Statatus.values()[todoModel.status].name
             binding.statusImg.visibility = if (todoModel.todo) View.VISIBLE else View.INVISIBLE
+            binding.statusImgNot.visibility=
+                if (UpdateUC.compareTodo(todoModel.time)) View.INVISIBLE else if (todoModel.todo)
+                    View.INVISIBLE else View.VISIBLE
+
 
 
         }
@@ -41,6 +49,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.TodoViewHolder>() {
         return TodoViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
 
         holder.populateModel(list[position])

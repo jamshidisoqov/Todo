@@ -36,9 +36,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun readTodoOfDay(time:String){
         viewModelScope.launch{
          _todOfDay.value = repo!!.readTodoOfDay(time)
-            if (todoOfDay.value==null){
-                takeNowTime(days.value!![0])
-            }
         }
     }
 
